@@ -10,7 +10,7 @@ Copyright © 2023 Yehor Oblyvantsov 📅
 To use the ScheDU library, you need to include it in your PHP project. You can do this by downloading the ScheDU.php file and requiring it in your PHP script:
 
 ```php
-require_once 'ScheDU.php';
+require_once 'schedu.php';
 ```
 ## Initialization
 Before you can use the library, you need to create an instance of the ScheDU class:
