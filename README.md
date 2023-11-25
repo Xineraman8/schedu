@@ -69,7 +69,7 @@ echo $json_data;
 - ### Make sure to handle exceptions: 
 The library throws exceptions when data retrieval fails. Be sure to catch and handle these exceptions appropriately in your code.
 - ### Use appropriate date formats: 
-When specifying date ranges, use the format 'DD.MM.YYY' for consistency.
+When specifying date ranges, use the format 'DD.MM.YYYY' for consistency.
 - ### Check for null values: 
 When using methods that return data by name or ID, check for null values to handle cases where the data is not found.
 - ### Keep data up to date: 
