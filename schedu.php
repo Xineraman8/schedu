@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Клас ScheDU представляє бібліотеку для роботи з розкладом Сумського державного університету.
+ * The ScheDU class represents a library for working with the schedule of Sumy State University.
  *
- * Ця бібліотека дозволяє отримувати інформацію про групи, викладачів, аудиторії та розклад з серверу СумДУ.
- * Вона надає можливість отримувати інформацію про розклад для груп, викладачів та аудиторій за певний період часу.
- * Також бібліотека дозволяє перетворювати отримані дані у зручний формат.
- * 
- * Copyright © 2023 Обливанцов Єгор
+ * This library allows retrieving information about groups, teachers, auditoriums, and the schedule from the SumDU server.
+ * It provides the ability to obtain information about the schedule for groups, teachers, and auditoriums for a specific period.
+ * Additionally, the library allows transforming the retrieved data into a convenient format.
+ *
+ * Copyright © 2023 Yegor Oblyviancov
  */
 
 class ScheDU
@@ -28,94 +28,94 @@ class ScheDU
 
     private function fetchGroups()
     {
-        // Отримуємо JSON-дані з серверу для груп
+        // Get JSON data from the server for groups
         $jsonData = @file_get_contents($this->urlGroups);
 
         if ($jsonData === false) {
-            throw new Exception('Не вдалося отримати перелік груп');
+            throw new Exception('Failed to retrieve the list of groups');
         }
 
-        // Декодуємо JSON-дані у масив для груп
+        // Decode JSON data into an array for groups
         $this->groups = json_decode($jsonData, true);
 
         if ($this->groups === null) {
-            throw new Exception('Помилка при декодуванні JSON для груп');
+            throw new Exception('Error decoding JSON for groups');
         }
 
-        // Видаляємо пусті елементи з масиву для груп
+        // Remove empty elements from the groups array
         $this->groups = array_filter($this->groups);
     }
 
     private function fetchTeachers()
     {
-        // Отримуємо JSON-дані з серверу для викладачів
+        // Get JSON data from the server for teachers
         $jsonData = @file_get_contents($this->urlTeachers);
 
         if ($jsonData === false) {
-            throw new Exception('Не вдалося отримати перелік викладачів');
+            throw new Exception('Failed to retrieve the list of teachers');
         }
 
-        // Декодуємо JSON-дані у масив для викладачів
+        // Decode JSON data into an array for teachers
         $this->teachers = json_decode($jsonData, true);
 
         if ($this->teachers === null) {
-            throw new Exception('Помилка при декодуванні JSON для викладачів');
+            throw new Exception('Error decoding JSON for teachers');
         }
 
-        // Видаляємо пусті елементи з масиву для викладачів
+        // Remove empty elements from the teachers array
         $this->teachers = array_filter($this->teachers);
     }
 
     private function fetchAuditoriums()
     {
-        // Отримуємо JSON-дані з серверу для аудиторій
+        // Get JSON data from the server for auditoriums
         $jsonData = @file_get_contents($this->urlAuditoriums);
 
         if ($jsonData === false) {
-            throw new Exception('Не вдалося отримати перелік аудиторій');
+            throw new Exception('Failed to retrieve the list of auditoriums');
         }
 
-        // Декодуємо JSON-дані у масив для аудиторій
+        // Decode JSON data into an array for auditoriums
         $this->auditoriums = json_decode($jsonData, true);
 
         if ($this->auditoriums === null) {
-            throw new Exception('Помилка при декодуванні JSON для аудиторій');
+            throw new Exception('Error decoding JSON for auditoriums');
         }
 
-        // Видаляємо пусті елементи з масиву для аудиторій
+        // Remove empty elements from the auditoriums array
         $this->auditoriums = array_filter($this->auditoriums);
     }
 
     public function getAllGroups()
     {
-        // Перевіряємо, чи дані про групи уже завантажені. Якщо ні, то завантажуємо їх.
+        // Check if data for groups is already loaded. If not, load it.
         if ($this->groups === null) {
             $this->fetchGroups();
         }
 
-        // Повертаємо усі групи у вигляді масиву
+        // Return all groups as an array
         return $this->groups;
     }
 
     public function getAllTeachers()
     {
-        // Перевіряємо, чи дані про викладачів уже завантажені. Якщо ні, то завантажуємо їх.
+        // Check if data for teachers is already loaded. If not, load it.
         if ($this->teachers === null) {
             $this->fetchTeachers();
         }
 
-        // Повертаємо усіх викладачів у вигляді масиву
+        // Return all teachers as an array
         return $this->teachers;
     }
 
     public function getAllAuditoriums()
     {
-        // Перевіряємо, чи дані про аудиторії уже завантажені. Якщо ні, то завантажуємо їх.
+        // Check if data for auditoriums is already loaded. If not, load it.
         if ($this->auditoriums === null) {
             $this->fetchAuditoriums();
         }
 
-        // Повертаємо усі аудиторії у вигляді масиву
+        // Return all auditoriums as an array
         return $this->auditoriums;
     }
 
@@ -126,7 +126,7 @@ class ScheDU
                 return $groupId;
             }
         }
-        return null; // Якщо групу не знайдено
+        return null; // If the group is not found
     }
 
     public function getGroupNameById($groupId)
@@ -134,7 +134,7 @@ class ScheDU
         if (isset($this->groups[$groupId])) {
             return $this->groups[$groupId];
         }
-        return null; // Якщо групу не знайдено
+        return null; // If the group is not found
     }
 
     public function getTeacherIdByName($teacherName)
@@ -144,7 +144,7 @@ class ScheDU
                 return $teacherId;
             }
         }
-        return null; // Якщо викладача не знайдено
+        return null; // If the teacher is not found
     }
 
     public function getTeacherNameById($teacherId)
@@ -152,7 +152,7 @@ class ScheDU
         if (isset($this->teachers[$teacherId])) {
             return $this->teachers[$teacherId];
         }
-        return null; // Якщо викладача не знайдено
+        return null; // If the teacher is not found
     }
 
     public function getAuditoriumIdByName($auditoriumName)
@@ -162,7 +162,7 @@ class ScheDU
                 return $auditoriumId;
             }
         }
-        return null; // Якщо аудиторію не знайдено
+        return null; // If the auditorium is not found
     }
 
     public function getAuditoriumNameById($auditoriumId)
@@ -170,13 +170,13 @@ class ScheDU
         if (isset($this->auditoriums[$auditoriumId])) {
             return $this->auditoriums[$auditoriumId];
         }
-        return null; // Якщо аудиторію не знайдено
+        return null; // If the auditorium is not found
     }
 
     public function getSchedule($type, $name, $dateFrom = null, $dateTo = null)
     {
 
-        // Вказуємо дати, якщо аргументи не були передані
+        // Specify dates if arguments were not provided
         if ($dateFrom === null) {
             $dateFrom = date('d.m.Y');
         }
@@ -184,42 +184,42 @@ class ScheDU
             $dateTo = date('d.m.Y');
         }
 
-        // Валідація наданого типу
+        // Validation of the provided type
         $type = strtoupper($type);
         $validTypes = ['GROUP', 'TEACHER', 'AUDITORIUM'];
 
         if (!in_array($type, $validTypes)) {
-            throw new InvalidArgumentException('Невірний тип. Використовуйте GROUP, TEACHER або AUDITORIUM.');
+            throw new InvalidArgumentException('Invalid type. Use GROUP, TEACHER, or AUDITORIUM.');
         }
 
-        // Побудова URL для запиту та отримання ідентифікаторів
+        // Build the URL for the request and obtain identifiers
         if ($type === 'GROUP') {
             $groupId = $this->getGroupIdByName($name);
             if ($groupId === null) {
-                throw new InvalidArgumentException('Групу не знайдено.');
+                throw new InvalidArgumentException('Group not found.');
             }
             $url = "https://schedule.sumdu.edu.ua/index/json?method=getSchedules&id_grp={$groupId}&date_beg={$dateFrom}&date_end={$dateTo}";
         } elseif ($type === 'TEACHER') {
             $teacherId = $this->getTeacherIdByName($name);
             if ($teacherId === null) {
-                throw new InvalidArgumentException('Викладача не знайдено.');
+                throw new InvalidArgumentException('Teacher not found.');
             }
             $url = "https://schedule.sumdu.edu.ua/index/json?method=getSchedules&id_fio={$teacherId}&date_beg={$dateFrom}&date_end={$dateTo}";
         } elseif ($type === 'AUDITORIUM') {
             $auditoriumId = $this->getAuditoriumIdByName($name);
             if ($auditoriumId === null) {
-                throw new InvalidArgumentException('Аудиторію не знайдено.');
+                throw new InvalidArgumentException('Auditorium not found.');
             }
             $url = "https://schedule.sumdu.edu.ua/index/json?method=getSchedules&id_aud={$auditoriumId}&date_beg={$dateFrom}&date_end={$dateTo}";
         }
 
-        // Виконуємо HTTP-запит і отримуємо JSON-відповідь
+        // Execute an HTTP request and get the JSON response
         $response = file_get_contents($url);
 
-        // Перетворюємо JSON-відповідь в масив
+        // Decode the JSON response into an array
         $data = json_decode($response, true);
 
-        // Тепер перетворюємо отриманий масив в бажаний формат
+        // Now transform the obtained array into the desired format
         $formattedData = [];
         foreach ($data as $item) {
             $formattedItem = [
@@ -246,7 +246,7 @@ class ScheDU
             $formattedData[] = $formattedItem;
         }
 
-        // Виводимо масив через var_dump
+        // Output the array using var_dump
         return $formattedData;
     }
 }
